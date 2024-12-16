@@ -41,9 +41,6 @@ def get_paragraphs(text: str) -> list[str]:
         raise ValueError("The argument is empty or not a string")
     return [paragraph for paragraph in text.split("\n") if paragraph]
 
-    if not text or not isinstance(text,str):
-        raise ValueError
-    return text.split('\n')
 
 class BM25Vectorizer(Vectorizer):
     """
@@ -127,15 +124,6 @@ class BM25Vectorizer(Vectorizer):
                 vector_to_fill[vec_ind] = bm25[word]
         return tuple(vector_to_fill)
 
-        vectors = [0.0] * len(self._vocabulary)
-        bm_25 = calculate_bm25(self._vocabulary, tokenized_document,
-                               self._idf_values, 1.5, 0.75,
-                               self._avg_doc_len, len(tokenized_document))
-
-        for i, token in enumerate(self._vocabulary):
-            if token in tokenized_document:
-                vectors[i] = bm_25.get(token, 0.0)
-        return tuple(vectors)
 
 class DocumentVectorDB:
     """
@@ -301,7 +289,7 @@ class ClusterDTO:
     Store clusters.
     """
 
-    _centroid: Vector
+    __centroid: Vector
     __indices: list[int]
 
     def __init__(self, centroid_vector: Vector) -> None:
